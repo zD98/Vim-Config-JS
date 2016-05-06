@@ -8,40 +8,8 @@ source $VIMRUNTIME/menu.vim
 set fileencodings=utf-8,GB2312
 
 set nocompatible
-source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
-
-set diffexpr=MyDiff()
-function MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
-      if empty(&shellxquote)
-        let l:shxq_sav = ''
-        set shellxquote&
-      endif
-      let cmd = '"' . $VIMRUNTIME . '\diff"'
-    else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-    endif
-  else
-    let cmd = $VIMRUNTIME . '\diff'
-  endif
-  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
-  if exists('l:shxq_sav')
-    let &shellxquote=l:shxq_sav
-  endif
-endfunction
-
 
 "设置tab
 set autoindent
@@ -49,14 +17,14 @@ filetype plugin indent on
 "禁止折行
 set nowrap
 set smartindent
-
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-
 if has("autocmd")
   autocmd FileType javascript setlocal ts=4 sts=4 sw=4 expandtab
 endif
+"
+set noundofile
 "不回滚
 set nobackup
 " 开启行号显示
@@ -77,8 +45,8 @@ syntax enable
 syntax on
 set background=dark
 colorscheme solarized
-
-set gcr=a:block-blinkon0
+" 设置状态栏主题风格
+let g:Powerline_colorscheme='solarized256'
 " 禁止光标闪烁
 set gcr=a:block-blinkon0
 " 禁止显示滚动条
@@ -89,7 +57,24 @@ set guioptions-=R
 " 禁止显示菜单和工具条
 " set guioptions-=m
 set guioptions-=T
+"设置gvim显示字体
+set guifont=YaHei\ Consolas\ Hybrid:h14
 
+"YCM             
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>  
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>  
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>  
 
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers=['eslint']
+"multi_cursor 
 execute pathogen#infect()
-exec 'cd ' . fnameescape('c:\Workspace\VimProjects')
+exec 'cd ' . fnameescape('c:\Workspace\WebstormProjects')
+
