@@ -1,11 +1,13 @@
 "设置coding
 set encoding=utf-8
 
+
 set fileencodings=utf-8,GB2312
 
 set nocompatible
-
-"设置tab
+filetype on
+"设置插件文件类型
+filetype plugin on
 filetype plugin indent on
 "禁止折行
 set nowrap
@@ -67,13 +69,15 @@ set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
 
-set fu
+"set fu
+
 "set bundles
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'ternjs/tern_for_vim' 
 Plugin 'mattn/emmet-vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
@@ -82,9 +86,17 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'maksimr/vim-jsbeautify'
-Plugin 'nathanaelkane/vim-indent-guide'
-
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'pangloss/vim-javascript'
+Plugin 'yuezk/xtpl.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'posva/vim-vue'
+Plugin 'mxw/vim-jsx'
+Plugin 'airblade/vim-gitgutter'
 call vundle#end()
+
+"vim-jsx
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 "YCM             
 nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>  
@@ -108,11 +120,11 @@ autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
 " for json
 autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
 " for jsx
-"autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
 " for html
-"autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 " for css or scss
-"autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
 "nerdtree
 
@@ -128,8 +140,4 @@ let NERDTreeMinimalUI=1
 " 删除文件时自动删除文件对应 buffer
 let NERDTreeAutoDeleteBuffer=1
 "ignore 
-let NERDTreeIgnore= ['\.DS_Store$']
-
-filetype plugin indent on
-let g:Source = '~/workspace'
-exec 'cd ' . fnameescape('~/workspace')
+let NERDTreeIgnore= ['\.DS_Store$','node_modules']
